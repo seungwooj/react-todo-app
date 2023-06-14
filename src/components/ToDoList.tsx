@@ -2,6 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import CreateToDo from "./CreateToDo";
 import { categoriesState, categoryState, toDoSelector } from "../atoms";
 import ToDo from "./ToDo";
+import { useEffect } from "react";
 
 function ToDoList() {
     // const toDos = useRecoilValue(toDoState);
@@ -19,6 +20,10 @@ function ToDoList() {
         }
     };
 
+    useEffect(() => {
+        localStorage.setItem("categories", JSON.stringify(categories));
+    }, [categories]);
+
     return (
         <div>
             <h1>To Dos : {category}</h1>
@@ -28,9 +33,6 @@ function ToDoList() {
                     {categories.map((availCategory) => (
                         <option value={availCategory}>{availCategory}</option>
                     ))}
-
-                    {/* <option value={Categories.DOING}>Doing</option>
-                    <option value={Categories.DONE}>Done</option> */}
                 </select>
             </form>
             <button onClick={addCategory}>Add new</button>

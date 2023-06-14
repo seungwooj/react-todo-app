@@ -15,11 +15,6 @@ export interface IToDo {
     category: string;
 }
 
-export const toDoState = atom<IToDo[]>({
-    key: "toDo",
-    default: [],
-});
-
 export const categoryState = atom<string>({
     key: "category",
     default: defaultCategories[0],
@@ -27,7 +22,14 @@ export const categoryState = atom<string>({
 
 export const categoriesState = atom<string[]>({
     key: "categories",
-    default: defaultCategories,
+    default: JSON.parse(
+        localStorage.getItem("categories") ?? JSON.stringify(defaultCategories)
+    ),
+});
+
+export const toDoState = atom<IToDo[]>({
+    key: "toDo",
+    default: JSON.parse(localStorage.getItem("toDos") ?? "[]"),
 });
 
 export const toDoSelector = selector({
