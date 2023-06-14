@@ -1,7 +1,8 @@
-import { useSetRecoilState } from "recoil";
-import { Categories, IToDo, toDoState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { IToDo, categoriesState, toDoState } from "../atoms";
 
 function ToDo({ id, text, category }: IToDo) {
+    const categories = useRecoilValue(categoriesState);
     const setToDos = useSetRecoilState(toDoState);
     const onClick = (newCategory: IToDo["category"]) => {
         setToDos((oldToDos) => {
@@ -14,25 +15,20 @@ function ToDo({ id, text, category }: IToDo) {
                 ...oldToDos.slice(targetIndex + 1),
             ];
             return newToDos;
-            // return oldToDos.map((oldToDo) =>
-            //     oldToDo.id === id
-            //         ? { ...oldToDo, category: newCategory }
-            //         : oldToDo
-            // );
         });
     };
     return (
         <li>
             <span style={{ color: "white", padding: 10 }}>{text}</span>
-            {category !== Categories.TO_DO && (
-                <button onClick={() => onClick(Categories.TO_DO)}>To Do</button>
-            )}
-            {category !== Categories.DOING && (
-                <button onClick={() => onClick(Categories.DOING)}>Doing</button>
-            )}
-            {category !== Categories.DONE && (
-                <button onClick={() => onClick(Categories.DONE)}>Done</button>
-            )}
+            {categories.map((availCategory) => (
+                <button
+                    disabled={availCategory === category}
+                    key={availCategory}
+                    onClick={() => onClick(availCategory)}
+                >
+                    {availCategory}
+                </button>
+            ))}
         </li>
     );
 }
