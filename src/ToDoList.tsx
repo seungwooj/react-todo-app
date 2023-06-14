@@ -1,21 +1,37 @@
 import { useForm } from "react-hook-form";
 
 interface IForm {
-    [key: string]: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
+    password1: string;
+    extraError?: string;
 }
 
 function ToDoList() {
-    // register : state과 동일, but useForm 선언은 한번만 해도 됨
-    // handleSubmit : onSubmit - validation
+    // useForm : register, handleSubmit 사용가능
+    // register : state과 동일, form의 input에 등록, validation내용 설정
+    // handleSubmit : form의 onSubmit에 등록, onValid fn을 필수 arg로 받는다.
+    // formState : form의 errors객체를 쓸 수 있음. (에러 내용 확인 가능.)
+    // setError: error내용 설정 가능
     const {
         register,
         handleSubmit,
         formState: { errors },
+        setError,
     } = useForm<IForm>();
-    const onValid = (data: any) => {
-        console.log(data);
+
+    // onValid fn : called if the data is valid
+    const onValid = (data: IForm) => {
+        if (data.password !== data.password1) {
+            return setError("password1", {
+                message: "Password are not the same",
+            });
+        }
+        // return setError("extraError", { message: "Server offline" });
     };
-    console.log(errors);
+
     return (
         <div>
             <form
@@ -37,8 +53,12 @@ function ToDoList() {
                     {...register("firstName", {
                         required: "first name is required",
                         minLength: {
-                            value: 10,
+                            value: 5,
                             message: "Your first name is too short",
+                        },
+                        validate: {
+                            noSpace: (value) =>
+                                value.includes(" ") ? "no space allowed" : true,
                         },
                     })}
                     placeholder="Write your First Name"
@@ -48,7 +68,7 @@ function ToDoList() {
                     {...register("lastName", {
                         required: "last name is required",
                         minLength: {
-                            value: 10,
+                            value: 2,
                             message: "Your last name is too short",
                         },
                     })}
@@ -79,6 +99,7 @@ function ToDoList() {
                 ></input>
                 <span>{errors?.password1?.message as string}</span>
                 <button>Add</button>
+                <span>{errors?.extraError?.message}</span>
             </form>
         </div>
     );
