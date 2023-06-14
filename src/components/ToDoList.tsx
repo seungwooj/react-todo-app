@@ -3,6 +3,57 @@ import CreateToDo from "./CreateToDo";
 import { categoriesState, categoryState, toDoSelector } from "../atoms";
 import ToDo from "./ToDo";
 import { useEffect } from "react";
+import { styled } from "styled-components";
+
+const Container = styled.div`
+    padding: 0px 20px;
+    max-width: 480px;
+    margin: 0 auto;
+`;
+
+const Header = styled.header`
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Title = styled.h1`
+    font-size: 48px;
+    color: ${(props) => props.theme.accentColor};
+`;
+
+const Form = styled.form`
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: ${(props) => props.theme.cardColor};
+    display: flex;
+`;
+
+const Select = styled.select`
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+`;
+
+const Option = styled.option`
+    padding: 5px;
+`;
+
+const Button = styled.button`
+    font-size: 18px;
+    background-color: ${(props) => props.theme.accentColor};
+    color: ${(props) => props.theme.textColor};
+    margin-left: 1rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+`;
 
 function ToDoList() {
     // const toDos = useRecoilValue(toDoState);
@@ -25,17 +76,20 @@ function ToDoList() {
     }, [categories]);
 
     return (
-        <div>
-            <h1>To Dos : {category}</h1>
+        <Container>
+            <Header>
+                <Title>To Dos : {category}</Title>
+            </Header>
+
             <hr />
-            <form>
-                <select value={category} onInput={onInput}>
+            <Form>
+                <Select value={category} onInput={onInput}>
                     {categories.map((availCategory) => (
-                        <option value={availCategory}>{availCategory}</option>
+                        <Option value={availCategory}>{availCategory}</Option>
                     ))}
-                </select>
-            </form>
-            <button onClick={addCategory}>Add new</button>
+                </Select>
+                <Button onClick={addCategory}>Add new</Button>
+            </Form>
             <CreateToDo />
             <hr />
             <ul>
@@ -43,7 +97,7 @@ function ToDoList() {
                     <ToDo key={toDo.id} {...toDo} />
                 ))}
             </ul>
-        </div>
+        </Container>
     );
 }
 
