@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import React from "react";
-import "./App.css";
+import ToDoList from "./ToDoList";
 
 // styled-reset https://github.com/zacanger/styled-reset/blob/master/src/index.ts
 const GlobalStyle = createGlobalStyle`
@@ -73,6 +72,7 @@ function App() {
     return (
         <>
             <GlobalStyle />
+            <ToDoList />
         </>
     );
 }
