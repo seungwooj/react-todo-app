@@ -25,7 +25,7 @@ const Header = styled.header`
 
 const Title = styled.h1`
   font-size: 48px;
-  color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.textColor};
 `;
 
 const ToggleBtn = styled.button`
@@ -109,7 +109,9 @@ function ToDoList() {
       <Form>
         <Select value={category} onInput={onInput}>
           {categories.map((availCategory) => (
-            <Option value={availCategory}>{availCategory}</Option>
+            <Option key={availCategory} value={availCategory}>
+              {availCategory}
+            </Option>
           ))}
         </Select>
         <Button onClick={addCategory}>Add new</Button>
