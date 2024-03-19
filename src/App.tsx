@@ -1,5 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import { useRecoilValue } from "recoil";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
 import ToDoList from "./components/ToDoList";
+import { isDarkAtom } from "./atoms";
 
 // styled-reset https://github.com/zacanger/styled-reset/blob/master/src/index.ts
 const GlobalStyle = createGlobalStyle`
@@ -69,12 +73,14 @@ a {
 `;
 
 function App() {
-    return (
-        <>
-            <GlobalStyle />
-            <ToDoList />
-        </>
-    );
+  const isDark = useRecoilValue(isDarkAtom);
+
+  return (
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <ToDoList />
+    </ThemeProvider>
+  );
 }
 
 export default App;
