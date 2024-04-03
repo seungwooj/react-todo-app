@@ -79,7 +79,6 @@ function ToDoList() {
     setIsDark((oldIsDark) => !oldIsDark);
   };
 
-  // const toDos = useRecoilValue(toDoState);
   const toDos = useRecoilValue(toDoSelector);
   const [category, setCategory] = useRecoilState(categoryState);
   const [categories, setCategories] = useRecoilState(categoriesState);
@@ -104,7 +103,6 @@ function ToDoList() {
         <Title>To Dos : {category}</Title>
         <ToggleBtn onClick={toggleState}>{isDark ? "☀️" : "🌙"}</ToggleBtn>
       </Header>
-
       <hr />
       <Form>
         <Select value={category} onInput={onInput}>
